@@ -6,6 +6,10 @@ const userSchema = new Schema({
         required : [true, "username is required"],
         unique : [true, "username must be unique"],
     },
+    avatar : {
+        type : String,
+        default : "https://robohash.org/manik/"
+    },
     email : {
         type : String,
         required : [true, "email is required"],

@@ -1,8 +1,8 @@
 import { NextFunction, Request, Response } from "express";
 import { ZodObject } from "zod";
 
-export async function validate(schema: ZodObject<any, any>) {
-    return (req : Request, res : Response, next : NextFunction){
+export function validate(schema: ZodObject<any, any>) {
+    return (req : Request, res : Response, next : NextFunction) => {
         try {
             schema.parse(req.body);
             next();

@@ -1,11 +1,8 @@
 import { Router } from "express";
+import userRouter from "./user.route";
 const apiRouter = Router();
 
-apiRouter.get("/test", (req, res) => {
-    res.json({
-        message: "api  router is working"
-    })
-})
+apiRouter.use("/user", userRouter);
 
 
 export default apiRouter;
