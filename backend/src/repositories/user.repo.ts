@@ -4,7 +4,7 @@ import crudFunctions from "./crud";
 const userRepo = {
     ...crudFunctions(userModel),
     findByEmail : async (email : string) => {
-        const user = userModel.findOne({email : email});
+        const user = userModel.findOne({email : email}).lean();
         return user;
     }
 }
