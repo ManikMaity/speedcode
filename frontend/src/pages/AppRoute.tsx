@@ -1,12 +1,16 @@
 import { Route, Routes } from "react-router-dom";
-import SignupPage from "./SignupPage";
+import MainLayout from "@/components/organisms/MainLayout";
+import AuthLayout from "./auth/AuthLayout";
+import Signup from "./auth/Signup";
+import Signin from "./auth/Signin";
 
 function AppRoute() {
   return (
     <Routes>
-      <Route path="/" element={<h1>Home</h1>}></Route>
+      <Route path="/" element={<MainLayout>Home</MainLayout>}></Route>
       <Route path="/about" element={<h1>About</h1>}></Route>
-      <Route path="/signup" element={<SignupPage/>}></Route>
+      <Route path="/signup" element={<AuthLayout><Signup/></AuthLayout>}></Route>
+      <Route path="/signin" element={<AuthLayout><Signin/></AuthLayout>}></Route>
     </Routes>
   );
 }
