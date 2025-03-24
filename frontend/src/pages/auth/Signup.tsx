@@ -2,11 +2,15 @@ import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
-import { Eye, EyeClosed } from "lucide-react"
+import useSignup from "@/hooks/auth/useSignup"
+import { Eye, EyeClosed, Loader2 } from "lucide-react"
 import { useState } from "react"
 import { Link } from "react-router-dom"
+import { toast } from "sonner"
 
 function Signup() {
+
+  const {isSuccess, isPending, signupMutateAsync} = useSignup();
 
     const [userData, setUserData] = useState({
         email : "",
@@ -16,9 +20,19 @@ function Signup() {
 
     const [showPass, setShowPass] = useState(false);
 
+
+    async function onSignupBtnClick() {
+      if (isPending) return;
+      if (userData.email.trim() == "" || userData.password.trim() == "") {
+        toast("Please enter some data before submit")
+        return;
+      }
+        await signupMutateAsync(userData);
+    }
+
   return (
     <div className="flex items-center justify-center w-full max-w-lg min-h-screen bg-gray-900">
-      <Card className="w-full p-6 bg-gray-800 dark:text-white shadow-xl rounded-2xl">
+      <Card className="w-full md:p-6 py-5 bg-gray-800 dark:text-white shadow-xl rounded-2xl">
         <h2 className="text-2xl font-bold text-center mb-4">Sign Up</h2>
         <CardContent className="space-y-4">
           <div>
@@ -65,7 +79,7 @@ function Signup() {
             <Button className="mt-1" onClick={() => setShowPass(!showPass)} variant={"secondary"}>{showPass ? <EyeClosed/> : <Eye/>}</Button>
             </div>
           </div>
-          <Button className="w-full bg-blue-600 hover:bg-blue-700 mt-4 dark:text-white">Sign Up</Button>
+          <Button className="w-full bg-blue-600 hover:bg-blue-700 mt-4 dark:text-white" onClick={onSignupBtnClick} disabled={isPending}>{isPending ? <Loader2 className="animate-spin"/> : "Sign up"}</Button>
 
           <p className="text-center">Already have an account? <Link to="/signin" className="text-blue-500 hover:underline">Sign In</Link></p>
         </CardContent>
