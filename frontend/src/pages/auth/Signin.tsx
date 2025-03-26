@@ -2,9 +2,11 @@ import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
-import { Eye, EyeClosed } from "lucide-react";
+import useSignin from "@/hooks/auth/useSignin";
+import { Eye, EyeClosed, Loader2 } from "lucide-react";
 import { useState } from "react";
 import { Link } from "react-router-dom";
+import { toast } from "sonner";
 
 
 
@@ -17,10 +19,21 @@ function Signin() {
     
         const [showPass, setShowPass] = useState(false);
 
+    const {isPending, signinMutateAsync} = useSignin();
+
+    async function onSigninClick() {
+      if (isPending) return;
+      if (userData.email.trim() == "" || userData.password.trim() == "") {
+        toast("Please enter some data before submit")
+        return;
+      }
+      await signinMutateAsync({email : userData.email, password : userData.password});
+    }
+
 
   return (
     <div className="flex items-center justify-center w-full max-w-lg min-h-screen bg-gray-900">
-      <Card className="w-full p-6 bg-gray-800 dark:text-white shadow-xl rounded-2xl">
+      <Card className="w-full py-4 md:p-6 bg-gray-800 dark:text-white shadow-xl rounded-2xl">
         <h2 className="text-2xl font-bold text-center mb-4">Sign In</h2>
         <CardContent className="space-y-4">
           <div>
@@ -55,7 +68,7 @@ function Signin() {
             <Button className="mt-1" onClick={() => setShowPass(!showPass)} variant={"secondary"}>{showPass ? <EyeClosed/> : <Eye/>}</Button>
             </div>
           </div>
-          <Button className="w-full bg-blue-600 hover:bg-blue-700 mt-4 dark:text-white">Sign Up</Button>
+          <Button disabled={isPending} onClick={onSigninClick} className="w-full bg-blue-600 hover:bg-blue-700 mt-4 dark:text-white">{isPending ? <Loader2 className="animate-spin"/> : "Sign Up"}</Button>
           <p className="text-center">Don&apos;t have an account? <Link to="/signup" className="text-blue-500 hover:underline">Signup</Link></p>
         </CardContent>
       </Card>
