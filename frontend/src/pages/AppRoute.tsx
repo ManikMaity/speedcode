@@ -8,6 +8,7 @@ function AppRoute() {
   return (
     <Routes>
       <Route path="/" element={<MainLayout>Home</MainLayout>}></Route>
+      <Route path="/problem" element={<MainLayout>Problems</MainLayout>}></Route>
       <Route path="/about" element={<h1>About</h1>}></Route>
       <Route path="/signup" element={<AuthLayout><Signup/></AuthLayout>}></Route>
       <Route path="/signin" element={<AuthLayout><Signin/></AuthLayout>}></Route>

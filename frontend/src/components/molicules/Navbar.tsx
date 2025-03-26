@@ -1,10 +1,12 @@
 import { Link, useLocation } from "react-router-dom"
 import { ModeToggle } from "../mode-toggle";
+import useAuthStore from "@/store/useAuthStore";
+import AvatarBtn from "../atoms/AvatarBtn";
 
 function Navbar() {
 
     const path = useLocation().pathname;
-    console.log(path);
+    const {userData, token} = useAuthStore();
 
     const navItems = [
         {name: "Home", path: "/"},
@@ -20,9 +22,11 @@ function Navbar() {
             {navItems.map((item) => (
                 <Link to={item.path} key={item.name} className={`hover:text-yellow-400 ${path === item.path ? "text-yellow-400" : ""}`}>{item.name}</Link>
             ))}
-
+            {(userData && token) ? (
+                    <AvatarBtn userData={userData} />
+            ) : <Link className="hover:text-yellow-400" to="/signin">Signin</Link>}
+            <ModeToggle/>
         </nav>
-        <ModeToggle/>
     </div>
   )
 }
